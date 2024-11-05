@@ -76,7 +76,7 @@ def send_llm_message(message):
     # Send the entire conversation history to maintain context
     chat_completion = client.chat.completions.create(
         messages=conversation_history,
-        model="llama3-8b-8192",  # Ensure this model exists
+        model="llama-3.1-70b-versatile",  # Ensure this model exists
         stream=False,
     )
 
@@ -107,7 +107,7 @@ listener.start()
 
 # Main loop
 while running:
-    message = input("You: ")
+    message = input("+----------+\nYou: ")
     if not running:  # Check if ESC was pressed to break the loop
         print("Exiting program...")
         break
