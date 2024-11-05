@@ -1,0 +1,3 @@
+241105: I am running into problems with data-limits since the program resends the whole conversation in a payload request, eventually hitting the limit. 
+        Suggestions are to either have a conversation window, only remembering 10-20 latest messages OR use a conversation ID to retrieve conversation history.
+        Idea: make an option to use either moving history window OR conversation ID.
