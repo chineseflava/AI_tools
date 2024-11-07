@@ -4,6 +4,7 @@ import sys
 
 from datetime import datetime
 from AIChatAgent import AIChatAgent
+from chat_window import ChatWindow
 
 # Contains the Conversation Manager module's logic
 class ConversationManager:
@@ -24,6 +25,7 @@ class ConversationManager:
         self.conversation_history = [
                 {"role": "system", "content": role}
             ]
+        self.conversation_id = conversation_id
         if conversation_id:
             self.conversation_history_path = os.path.join(self.conversations_folder, conversation_id)
             self.load_conversation()
