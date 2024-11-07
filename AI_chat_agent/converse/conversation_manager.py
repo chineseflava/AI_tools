@@ -1,11 +1,9 @@
 import os
-import groq
 import json
-import requests
 import sys
 
-from dotenv import load_dotenv
 from datetime import datetime
+from AIChatAgent import AIChatAgent
 
 # Contains the Conversation Manager module's logic
 class ConversationManager:
@@ -21,11 +19,7 @@ class ConversationManager:
             ConversationManager: An instance of the ConversationManager class.
         """
         # Client setup.
-        load_dotenv()
-        API_KEY = os.getenv("GROQ_API_KEY")
-        self.groq_client = groq.Groq(api_key=API_KEY)
-        self.model = "llama-3.1-70b-versatile" # Ensure this model exists
-
+        self.agent = AIChatAgent()
         self.conversations_folder = "conversations"
         self.conversation_history = [
                 {"role": "system", "content": role}
@@ -74,17 +68,13 @@ class ConversationManager:
 
     def send_message(self, message):
         """
-        Send a message to the Groq client and return the response.
+        Send a message to the chat agent and return the response.
 
         Args:
             message (str): The message to send.
 
         Returns:
-            str: The response from the Groq client.
-
-        Raises:
-            requests.exceptions.RequestException: If the request to the Groq client fails.
-            json.JSONDecodeError: If the response from the Groq client is not a valid JSON.
+            str: The response from the chat agent.
         """
         if not message.strip():
             print("Message cannot be empty.")
@@ -96,31 +86,16 @@ class ConversationManager:
         # Add user message to conversation history
         self.conversation_history.append({"role": "user", "content": message})
         
-        try:
-            # Send the entire conversation history to maintain context
-            chat_completion = self.groq_client.chat.completions.create(
-                messages=self.conversation_history,
-                model=self.model,  
-                stream=False,
-            )
-        except requests.exceptions.RequestException as e:
-            print(f"Failed to send message: {e}")
-            return None
-
-        try:
-            # Get assistant's response and add it to conversation history
-            response = chat_completion.choices[0].message.content
-            self.conversation_history.append({"role": "assistant", "content": response})
-        except (AttributeError, IndexError) as e:
-            print(f"Failed to get response: {e}")
-            return None
+        # Get assistant's response and add it to conversation history
+        response = self.agent.send_llm_message(self.conversation_history)
+        self.conversation_history.append({"role": "assistant", "content": response})
 
         # Save updated conversation history to file
         self.save_conversation()
         
         return response
     
-    def prune_conversation(self, trigger_size=20, limit=5000):
+    def prune_conversation(self, trigger_size=20, limit=250):
         """
         Prune the conversation to a certain size.
 
@@ -150,21 +125,15 @@ class ConversationManager:
         
         Use the LLM-model itself to generate a summary.
         """
-        history.append({"role": "user", "content":  open(os.path.join('AI_chat_agent', 'converse', 'prompts', 'summary_prompt.txt'), 'r').read()}) # "Summarize our whole conversation in one paragraph. This message is used as a pruning method to replace half the conversation history, so the newer messages should have greater weight than the older. Remember how many prunes has been done historically in this conversation by iterating a number you put in this summary."})
+        history.append({"role": "user", "content":  open(os.path.join('AI_chat_agent', 'converse', 'prompts', 'summary_prompt.txt'), 'r').read()})
+        
         try:
-            # Send the entire conversation history to maintain context
-            chat_completion = self.groq_client.chat.completions.create(
-                messages=history,
-                model=self.model,  
-                stream=False,
-            )
-            summary = chat_completion.choices[0].message.content
-
+            summary = self.agent.send_llm_message(history)
             #print("***Pruning Summary:***\n\n\n" + summary + "\n\n\n")
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             print(f"Failed to send message: {e}\nUsing fallback pruning...")
             #TODO: Implement fallback pruning.
-            return None# self._fallback_summarize_conversation(history)
+            return None # self._fallback_summarize_conversation(history) Skip this for now...
         return summary
     
     def _fallback_summarize_conversation(self, history):

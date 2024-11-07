@@ -1,3 +1,8 @@
 241105: I am running into problems with data-limits since the program resends the whole conversation in a payload request, eventually hitting the limit. 
         Suggestions are to either have a conversation window, only remembering 10-20 latest messages OR use a conversation ID to retrieve conversation history.
         Idea: make an option to use either moving history window OR conversation ID.
+
+        Update: the pruning seems to be working ok with a limit of 250 (whatever that means...)
+        I should implement some history log where it also saves the pruned parts of the conversations...
+
+241107: Make a class AIChatAgent that the conversation manager uses.
