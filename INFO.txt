@@ -1,1 +1,1 @@
-GROQ_API_KEY=some_key
+Install Node.js for the frontend.

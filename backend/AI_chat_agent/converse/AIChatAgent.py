@@ -1,11 +1,12 @@
 import os
 import groq
 import requests
+from prompts import helpful_role
 
 from dotenv import load_dotenv
 
 class AIChatAgent:
-    def __init__(self, name="assistant", role=open(os.path.join('AI_chat_agent', 'converse', 'prompts', 'role_prompt.txt'), 'r').read(), model="llama-3.1-70b-versatile"):
+    def __init__(self, name="assistant", role=helpful_role, model="llama-3.1-70b-versatile"):
         self.name = name
         self.role = role
         self.model = model

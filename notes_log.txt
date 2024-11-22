@@ -6,3 +6,8 @@
         I should implement some history log where it also saves the pruned parts of the conversations...
 
 241107: Make a class AIChatAgent that the conversation manager uses.
+
+241121: I'd like to make a frontend for the AI-chat. I'll see if I can make a React frontend and use the current Python code as backend somehow...
+
+Future Plans: 
+        - Intergrate AI agents and tools (using LLamaIndex, Llamaparse?)

@@ -4,11 +4,11 @@ import sys
 
 from datetime import datetime
 from AIChatAgent import AIChatAgent
-from chat_window import ChatWindow
+from prompts import summarize, helpful_role
 
 # Contains the Conversation Manager module's logic
 class ConversationManager:
-    def __init__(self, conversation_id=None, role=open(os.path.join('AI_chat_agent', 'converse', 'prompts', 'role_prompt.txt'), 'r').read()):
+    def __init__(self, conversation_id=None, role=helpful_role):
         """
         Initialize the Conversation Manager.
 
@@ -124,10 +124,13 @@ class ConversationManager:
     def _summarize_conversation(self,history):
         """
         Summarize a list of conversation messages.
+
+        Args: 
+            history {a:1, b:2 ...}
         
-        Use the LLM-model itself to generate a summary.
+        Use the LLM-model itself to generate a summary based on history.
         """
-        history.append({"role": "user", "content":  open(os.path.join('AI_chat_agent', 'converse', 'prompts', 'summary_prompt.txt'), 'r').read()})
+        history.append({"role": "user", "content":  summarize})
         
         try:
             summary = self.agent.send_llm_message(history)
