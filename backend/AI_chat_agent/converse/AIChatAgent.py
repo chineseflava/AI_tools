@@ -1,7 +1,7 @@
 import os
 import groq
 import requests
-from prompts import helpful_role
+from intent_templates import helpful_role
 
 from dotenv import load_dotenv
 

@@ -3,6 +3,9 @@ from tkinter import scrolledtext
 import json
 
 class ChatWindow:
+    """
+    An interactive chat window in tkinter for testing the chatbot in Python.
+    """
     def __init__(self, root, conversation_manager):
         self.root = root
         self.conversation_manager = conversation_manager
@@ -16,15 +19,15 @@ class ChatWindow:
         if self.conversation_manager.conversation_id:
             self.load_conversation_history()
 
-        # Create a new label for the message input
+        # Create a label for the message input
         self.message_label = tk.Label(root, text="Message:")
         self.message_label.pack()
 
-        # Create a new text entry field for the message
+        # Create a- text entry field for the message
         self.message_entry = tk.Text(root, height=5, width=40)
         self.message_entry.pack()
 
-        # Create a new button to add the message to the conversation log
+        # Create a button to add the message to the conversation log
         self.send_button = tk.Button(root, text="Send", command=self.send_and_receive_message)
         self.send_button.pack()
 

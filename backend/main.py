@@ -3,12 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, List
-from enum import Enum
+from AI_chat_agent.converse.conversation_manager import create_conversation_manager
 
-
-# class MessageType(Enum):
-#     user = "user"
-#     assistant = "assistant"
 
 class Message(BaseModel):
     type: str
@@ -33,6 +29,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Create Conversation Manager
+conversation_manager = create_conversation_manager()
+
 memory_db = {"conversation": []}
 
 @app.get("/conversation", response_model=Conversation)
@@ -43,6 +42,8 @@ def get_conversation():
 @app.post("/conversation")
 def add_message(message: Message):
     memory_db["conversation"].append({message.type : message.msg})
+    response = conversation_manager.send_message(message.msg)
+    memory_db["conversation"].append({conversation_manager.agent.name : response})
     return message
 
 

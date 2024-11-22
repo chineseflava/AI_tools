@@ -1,1 +1,1 @@
-# An empty file that indicates models is a Python package
+# An empty file that indicates a Python package

@@ -4,7 +4,7 @@ import sys
 
 from datetime import datetime
 from AIChatAgent import AIChatAgent
-from prompts import summarize, helpful_role
+from intent_templates import summarize, helpful_role
 
 # Contains the Conversation Manager module's logic
 class ConversationManager:
@@ -20,7 +20,7 @@ class ConversationManager:
             ConversationManager: An instance of the ConversationManager class.
         """
         # Client setup.
-        self.agent = AIChatAgent()
+        self.agent = AIChatAgent(role=role)
         self.conversations_folder = "conversations"
         self.conversation_history = [
                 {"role": "system", "content": role}
@@ -153,7 +153,7 @@ class ConversationManager:
                 summary.append(message["content"][:50])
         return " ".join(summary)
 
-def create_conversation_manager():
+def create_conversation_manager(role=helpful_role):
     """
     Create a Conversation Manager instance.
 
@@ -167,7 +167,7 @@ def create_conversation_manager():
     # Display available conversations
     if not json_files:
         print("No saved conversations found. Starting a new conversation.")
-        return ConversationManager()
+        return ConversationManager(role=role)
     
     print("Available conversations:")
     for i, file in enumerate(json_files):
@@ -181,7 +181,7 @@ def create_conversation_manager():
 
     conversation_id = json_files[choice]
     print(f"Loaded conversation from {json_files[choice]}")
-    return ConversationManager(conversation_id)
+    return ConversationManager(conversation_id, role=role)
 
 
 if __name__ == "__main__":
