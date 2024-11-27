@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 const AddMessageForm = ({ addMessage }) => {
-  const [messageName, setMessageName] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (messageName) {
-      addMessage(messageName);
-      setMessageName('');
+    if (message) {
+      addMessage(message);
+      setMessage('');
     }
   };
 
@@ -15,8 +15,8 @@ const AddMessageForm = ({ addMessage }) => {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={messageName}
-        onChange={(e) => setMessageName(e.target.value)}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
         placeholder="Enter message"
       />
       <button type="submit">Add Message</button>

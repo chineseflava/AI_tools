@@ -14,9 +14,9 @@ const MessageList = () => {
     }
   };
 
-  const addMessage = async (messageName) => {
+  const addMessage = async (message) => {
     try {
-      await api.post('/conversation', { name: messageName });
+      await api.post('/conversation', { name: message });
       fetchConversation();  // Refresh the list after adding a message
     } catch (error) {
       console.error("Error adding message", error);
@@ -32,7 +32,7 @@ const MessageList = () => {
       <h2>Conversation List</h2>
       <ul>
         {conversation.map((message, index) => (
-          <li key={index}>{message.name}</li>
+          <li key={index}>{message.msg}</li>
         ))}
       </ul>
       <AddMessageForm addMessage={addMessage} />
