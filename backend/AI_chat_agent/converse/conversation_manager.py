@@ -97,7 +97,7 @@ class ConversationManager:
         
         return response
     
-    def prune_conversation(self, trigger_size=20, limit=250):
+    def prune_conversation(self, trigger_size=20, limit=240):
         """
         Prune the conversation to a certain size.
 
@@ -119,7 +119,7 @@ class ConversationManager:
                     ] + self.conversation_history[half_size:]
                     self.save_conversation()
                 else:
-                    print(f"\n\n\nSize only {mem_size}. \nPruning uneccesary")
+                    print(f"\n\n\nSize only {mem_size}. \nPruning unnecessary")
 
     def _summarize_conversation(self,history):
         """

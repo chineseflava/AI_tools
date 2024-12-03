@@ -40,6 +40,9 @@ class AIChatAgent:
         except requests.exceptions.RequestException as e:
             print(f"Failed to send message: {e}")
             return None
+        except groq.GroqError as e:
+            print(f"A GroqError occured: {e}")
+            return None
 
         try:
             # Get assistant's response and add it to conversation history
