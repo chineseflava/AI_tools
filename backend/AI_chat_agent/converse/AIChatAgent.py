@@ -6,7 +6,7 @@ from intent_templates import helpful_role
 from dotenv import load_dotenv
 
 class AIChatAgent:
-    def __init__(self, name="assistant", role=helpful_role, model="llama-3.1-70b-versatile"):
+    def __init__(self, name="assistant", role=helpful_role, model="llama-3.3-70b-versatile"):
         self.name = name
         self.role = role
         self.model = model
