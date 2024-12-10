@@ -1,1 +1,0 @@
-Install Node.js for the frontend.

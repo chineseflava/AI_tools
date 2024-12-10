@@ -10,4 +10,4 @@
 241121: I'd like to make a frontend for the AI-chat. I'll see if I can make a React frontend and use the current Python code as backend somehow...
 
 Future Plans: 
-        - Intergrate AI agents and tools (using LLamaIndex, Llamaparse?)
+        - Integrate AI agents and tools (using LLamaIndex, Llamaparse?)
